@@ -59,10 +59,13 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" >
             
-            <a href="test1.php">
+            <a href="#">
                 <button type="button">Login</button>
             </a>
-
+            <hr>
+            <a href="home.php">
+                <button type="button">login as Guest</button>
+            </a>
         </form>
     </div>
 </body>
