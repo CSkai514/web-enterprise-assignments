@@ -18,7 +18,7 @@ if (!isset($_SESSION['user_role'])) {
         <aside class="sidebar">
             <p class="side-menu-title">Side menu</p>
             <a href="#"><p>Dashboard</p></a>
-            <a href="maganizeSubmit.php"><p>Submit maganize</p></a>
+            <a href="magazineSubmit.php"><p>Submit maganize</p></a>
             <a href="#"><p>Option 3</p></a>
             <a href="#"><p>Option 4</p></a>
         </aside>

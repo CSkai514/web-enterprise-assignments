@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Page</title>
+    <title>Upload magazine</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -60,12 +60,12 @@
 <body>
 
     <div class="upload-container">
-        <h2>Upload Page</h2>
+        <h2>Create Magazine</h2>
         <form action="upload.php" method="POST" enctype="multipart/form-data">
             <input type="text" name="title" placeholder="Title" required>
             <textarea name="article_word" placeholder="Article Content" required></textarea>
-            <p>Image Preview</p>
-            <div class="image-preview" id="imagePreview">No image selected</div>
+            <p>Uploaded Image Preview</p>
+            <div class="image-preview" id="imagePreview">No image uploaded to preview now</div>
             <input type="file" name="image" id="imageUpload" accept="image/*" required>
             <button type="submit" name="submit">Submit</button>
             <div class="terms-container">
