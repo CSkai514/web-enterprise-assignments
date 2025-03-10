@@ -3,24 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload magazine</title>
+    <title>Upload Maganize</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f8f9fa;
-        }
+        :root{
+    --mainTheme: #ffebcc;
+    --subTheme: #ffcc80;
+    --contrastTheme: #ffa64d;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--mainTheme); /* Light orange */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
 
         .upload-container {
             width: 400px;
             padding: 20px;
-            background: white;
+            background: var(--contrastTheme);
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            color: white;   
         }
 
         .upload-container input,
@@ -29,21 +42,27 @@
             width: 100%;
             margin: 10px 0;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: 1px solid #ffffff;
             border-radius: 5px;
         }
 
         .image-preview {
             width: 100%;
             height: 200px;
-            border: 1px solid #ccc;
+            border: 1px solid #ffffff;
             border-radius: 5px;
             background-size: cover;
             background-position: center;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #aaa;
+            color: #d3d3d3;
+        }
+
+        #submit-btn{
+            background-color: var(--subTheme);
+    color: black;
+    font-size: 20px;
         }
 
         .terms-container {
@@ -55,21 +74,25 @@
         .terms-container input {
             margin-right: 5px;
         }
+
+        .checkbox{
+            width:auto !important; 
+        }
     </style>
 </head>
 <body>
 
     <div class="upload-container">
-        <h2>Create Magazine</h2>
+        <h2>Create Maganize</h2>
         <form action="upload.php" method="POST" enctype="multipart/form-data">
             <input type="text" name="title" placeholder="Title" required>
             <textarea name="article_word" placeholder="Article Content" required></textarea>
             <p>Uploaded Image Preview</p>
             <div class="image-preview" id="imagePreview">No image uploaded to preview now</div>
             <input type="file" name="image" id="imageUpload" accept="image/*" required>
-            <button type="submit" name="submit">Submit</button>
+            <button type="submit" name="submit" id="submit-btn">Submit</button>
             <div class="terms-container">
-                <input type="checkbox" required>
+                <input type="checkbox" class="checkbox" required>
                 <label>I accept the <a href="#">terms and conditions</a> for the article</label>
             </div>
         </form>
