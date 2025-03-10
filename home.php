@@ -1,3 +1,10 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_role'])) {
+    $_SESSION['user_role'] = 'guest_user';
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,14 +17,15 @@
     <div class="container">
         <aside class="sidebar">
             <p class="side-menu-title">Side menu</p>
-            <a href="#"><p>Option 1</p></a>
-            <a href="#"><p>Option 2</p></a>
+            <a href="#"><p>Dashboard</p></a>
+            <a href="maganizeSubmit.php"><p>Submit maganize</p></a>
             <a href="#"><p>Option 3</p></a>
             <a href="#"><p>Option 4</p></a>
         </aside>
         <header class="topbar">
-            <div class="search-bar"></div>
+          
             <div class="avatar">Avatar</div>
+            <a href="logout.php" style="padding-left: 20px;">Logout</a>
         </header>
         <main class="content">
             <div class="cards">

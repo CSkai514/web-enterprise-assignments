@@ -1,0 +1,97 @@
+:root{
+    --mainTheme: #ffebcc;
+    --subTheme: #ffcc80;
+    --contrastTheme: #ffa64d;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--mainTheme); /* Light orange */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.login-box {
+    background: var(--contrastTheme);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px var(--contrastTheme);
+    width: 300px;
+    text-align: center;
+    border: 2px solid white;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: white; /* Darker orange */
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ff9966;
+    border-radius: 5px;
+    outline: none;
+    background: transparent;
+}
+
+.input-group label {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #999;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+    top: 5px;
+    font-size: 12px;
+    color: #ff6633;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--subTheme);
+    color: black;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: var(--mainTheme);
+}
+
+.guest-login{
+    background-color: transparent;
+    color: white;
+}
+
+.guest-login:hover {
+    color: rgb(90, 90, 90);
+    background-color: transparent;
+}

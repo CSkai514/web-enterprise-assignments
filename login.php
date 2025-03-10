@@ -1,72 +1,44 @@
 <?php 
- $title_header = "the login page" 
+ $title_header = "The login page";
+ session_start();
+
+if (isset($_POST['guestUser_login'])) {
+    $_SESSION['user_role'] = 'guest_user';
+    header("Location: home.php"); 
+    exit();
+}
  ?>
+ 
 <?php include 'header.php';?>
-<style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        .login-container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 300px;
-        }
-        h2 {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            text-align: left;
-            margin: 10px 0 5px;
-        }
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color:rgb(0, 82, 170);
-        }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="login-styles.css">
+</head>
 <body>
-<div class="login-container">
-        <h2>Login</h2>
-        <form action="#" method="POST">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" >
-            
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" >
-            
-            <a href="#">
-                <button type="button">Login</button>
-            </a>
-            <hr>
-            <a href="home.php">
-                <button type="button">login as Guest</button>
-            </a>
-        </form>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Login</h2>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <label for="floatingInput">Email address</label>
+              </div>
+              <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <label for="floatingPassword">Password</label>
+              </div>
+              <button class="mt-3" type="submit">Login</button>
+              <form method="post" action="login.php"> 
+              <button class="mt-3 guest-login" type="submit" name="guestUser_login">Login as Guest</button>
+              </form>
+              
+        </div>
     </div>
 </body>
 </html>
