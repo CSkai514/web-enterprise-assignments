@@ -1,14 +1,12 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user_role']))  {
     if (($_SESSION['loggedIn'] != true)){
+        $_SESSION['alert_message'] = "Please log in to view the Submission page.";
         header("Location: login.php"); 
     }
-    else{
-        $_SESSION['user_role'] = 'guest_user';
-    }
-}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,8 +71,13 @@ body {
 
         #submit-btn{
             background-color: var(--subTheme);
-    color: black;
-    font-size: 20px;
+            color: black;
+            font-size: 20px;
+        }
+        #cancel-btn{
+            background-color: var(--subTheme);
+            color: black;
+            font-size: 20px;
         }
 
         .terms-container {
@@ -90,12 +93,20 @@ body {
         .checkbox{
             width:auto !important; 
         }
+        .btn-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+}
     </style>
 </head>
 <body>
 
     <div class="upload-container">
         <h2>Create Maganize</h2>
+       
         <form action="upload.php" method="POST" enctype="multipart/form-data">
             <input type="text" name="title" placeholder="Title" required>
             <textarea name="article_word" placeholder="Article Content" required></textarea>
@@ -103,6 +114,9 @@ body {
             <div class="image-preview" id="imagePreview">No image uploaded to preview now</div>
             <input type="file" name="image" id="imageUpload" accept="image/*" required>
             <button type="submit" name="submit" id="submit-btn">Submit</button>
+            <button type="" name="cancel"  id="cancel-btn">
+                <a href="home.php">Cancel</a>
+            </button>
             <div class="terms-container">
                 <input type="checkbox" class="checkbox" required>
                 <label>I accept the <a href="#">terms and conditions</a> for the article</label>
