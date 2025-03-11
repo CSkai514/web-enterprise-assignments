@@ -1,8 +1,13 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user_role'])) {
-    $_SESSION['user_role'] = 'guest_user';
+if (!isset($_SESSION['user_role']))  {
+    if (($_SESSION['loggedIn'] != true)){
+        header("Location: login.php"); 
+    }
+    else{
+        $_SESSION['user_role'] = 'guest_user';
+    }
 }
 ?>
 <!DOCTYPE html>

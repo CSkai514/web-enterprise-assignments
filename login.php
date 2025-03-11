@@ -1,12 +1,14 @@
 <?php 
- $title_header = "The login page";
- session_start();
-
-if (isset($_POST['guestUser_login'])) {
-    $_SESSION['user_role'] = 'guest_user';
-    header("Location: home.php"); 
-    exit();
-}
+  $title_header = "The login page";
+  session_start();
+ 
+ if (isset($_POST['guestUser_login'])) {
+     $_SESSION['user_role'] = 'guest_user';
+     $_SESSION['loggedIn'] = true;
+     header("Location: home.php"); 
+     exit();
+ }
+ 
  ?>
  
 <?php include 'header.php';?>
