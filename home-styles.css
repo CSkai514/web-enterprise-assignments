@@ -1,0 +1,95 @@
+:root{
+    --mainTheme: #ffebcc;
+    --subTheme: #ffcc80;
+    --contrastTheme: #ffa64d;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffe6cc;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffa64d;
+    padding: 15px 30px;
+    font-size: 18px;
+    width: 90%;
+    margin: 2% 5%;
+    border-radius: 12px;
+}
+
+.logo {
+    font-weight: bold;
+    color: white;
+}
+
+.nav-links{
+    width: 100%;
+    display:flex;
+    justify-content: space-between;
+}
+
+.nav-links a {
+    margin-left: 20px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+.magazine-btn{
+    color: white;
+    background-color: #ffa64d;
+    border-radius: 12px;
+    font-size: 24px;
+    padding: 12px;
+    margin-top: 24px;
+}
+
+.past-magazines{
+    width: 90%;
+    margin: auto;
+}
+
+.welcome {
+    background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('images/welcome-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 50px;
+    padding-top:100px;
+    margin: 20px auto;
+    width: 90%;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    min-height: 500px;
+    text-align:center;
+    color: white;
+}
+
+.welcome h1 {
+    font-size: 32px;
+    color: white;
+    font-weight: 800;
+}
+
+.carousel-item-next, .carousel-item-prev, .carousel-item.active{
+    display: flex;
+    justify-content: space-between;
+}
+
+.carousel-indicators{
+    bottom: 0;
+}
+
+.slide-img{
+    width: 30%;
+    border-radius: 20px;
+}

@@ -4,7 +4,7 @@ session_start();
         $_SESSION['alert_message'] = "Please log in to view the Home page.";
         header("Location: login.php"); 
     }
-
+    $role = $_SESSION['role'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,16 +16,25 @@ session_start();
 </head>
 <body>
     <div class="container">
-        <aside class="sidebar">
-            <p class="side-menu-title">Side menu</p>
-            <a href="#"><p>Dashboard</p></a>
-            <a href="magazineSubmit.php"><p>Submit maganize</p></a>
-            <a href="#"><p>Option 3</p></a>
-            <a href="#"><p>Option 4</p></a>
-        </aside>
+    <aside class="sidebar">
+    <p class="side-menu-title">Side menu</p>
+
+    <a href="#"><p>Dashboard</p></a>
+
+    <?php if ($role === 'student' || $role === 'admin'): ?>
+        <a href="magazineSubmit.php"><p>Add New Magazine</p></a>
+    <?php endif; ?>
+
+    <?php if ($role === 'coordinator' || $role === 'admin'): ?>
+        <a href="coordinator_maganize_settings.php"><p>Add Closure Date</p></a>
+    <?php endif; ?>
+
+    <a href="#"><p>Option 4</p></a> <!-- Optional: visible to all -->
+</aside>
         <header class="topbar">
-          
-            <div class="avatar">Avatar</div>
+        
+            <div class="avatar">Avatar</div><br>
+            <span style="padding-left: 20px;">Role: <?= ucfirst($_SESSION['role']) ?></span>
             <a href="logout.php" style="padding-left: 20px;">Logout</a>
         </header>
         <main class="content">

@@ -109,7 +109,9 @@ body {
        
         <form action="upload.php" method="POST" enctype="multipart/form-data">
             <input type="text" name="title" placeholder="Title" required>
-            <textarea name="article_word" placeholder="Article Content" required></textarea>
+            <textarea name="article_word" placeholder="Description" required></textarea>
+            <p>Uploaded Words file for your article contents</p>
+            <input type="file" name="docs" id="docsUpload" accept="image/*" required>
             <p>Uploaded Image Preview</p>
             <div class="image-preview" id="imagePreview">No image uploaded to preview now</div>
             <input type="file" name="image" id="imageUpload" accept="image/*" required>
