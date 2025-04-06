@@ -5,6 +5,7 @@ session_start();
         header("Location: login.php"); 
     }
     $role = $_SESSION['role'];
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,6 +17,7 @@ session_start();
 </head>
 <body>
     <div class="container">
+        
     <aside class="sidebar">
     <p class="side-menu-title">Side menu</p>
 
