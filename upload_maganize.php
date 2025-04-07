@@ -20,7 +20,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         exit;
     }
 
+    $start_and_closure_date_dataFromdatabase = $pdo->prepare("SELECT open_date, close_date FROM magazine_closure_settings ORDER BY created_at DESC LIMIT 1");
+    $start_and_closure_date_dataFromdatabase->execute();
+    $start_and_closure_date_dataFromdatabase_Data = $start_and_closure_date_dataFromdatabase->fetch();
     
+    if ($start_and_closure_date_dataFromdatabase_Data) {
+        $openDate = $start_and_closure_date_dataFromdatabase_Data['open_date']; 
+        $closeDate = $start_and_closure_date_dataFromdatabase_Data['close_date']; 
+    
+        $currentDate = date('Y-m-d');
+        if ($currentDate < $openDate) {
+            $_SESSION['error_message'] = "The submission period has not yet started.";
+            header("Location: magazineSubmit.php");
+            exit;
+        } elseif ($currentDate > $closeDate) {
+            $_SESSION['error_message'] = "The submission period has closed.";
+            header("Location: magazineSubmit.php");
+            exit;
+        }
+    } else {
+        $_SESSION['error_message'] = "Unable to retrieve submission dates.";
+        header("Location: magazineSubmit.php");
+        exit;
+    }
+
     $uploadDir = "uploads/";
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0777, true);
@@ -35,10 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $wordPath = $uploadDir . uniqid('word_') . '_' . $wordFileName;
     $imagePath = $uploadDir . uniqid('img_') . '_' . $imageFileName;
 
-
     $allowedDocs = ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf'];
     $allowedImages = ['image/jpeg', 'image/png', 'image/gif'];
-
 
     if (!in_array($wordFile['type'], $allowedDocs)) {
         $_SESSION['error_message'] = "Only .doc, .docx, or .pdf files are allowed for Word files.";
@@ -57,12 +78,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         $updated_at = $created_at;
 
         try {
-            $stmt = $pdo->prepare("INSERT INTO articles (user_id, faculty_id, title, word_file, image_file, agreed_terms, is_selected, created_at, updated_at) 
-                                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO articles (user_id, faculty_id, title, word_file, image_file, agreed_terms, is_selected, created_at, updated_at, description) 
+                                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-            
             $is_selected = 0;
-            $stmt->execute([$user_id, $faculty_id, $title, $wordPath, $imagePath, $agreed_terms, $is_selected, $created_at, $updated_at]);
+            $stmt->execute([$user_id, $faculty_id, $title, $wordPath, $imagePath, $agreed_terms, $is_selected, $created_at, $updated_at, $article_word]);
 
             $_SESSION['alert_message'] = "Article submitted successfully!";
             $_SESSION['show_alert'] = true; 

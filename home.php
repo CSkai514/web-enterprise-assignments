@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'alert_message_fuction.php';
     if (($_SESSION['loggedIn'] != true)){
         $_SESSION['alert_message'] = "Please log in to view the Home page.";
         header("Location: login.php"); 
@@ -31,7 +32,7 @@ session_start();
         <a href="coordinator_maganize_settings.php"><p>Add Closure Date</p></a>
     <?php endif; ?>
 
-    <a href="#"><p>Option 4</p></a> <!-- Optional: visible to all -->
+    <a href="maganize_view.php"><p>View maganize Data</p></a> <!-- Optional: visible to all -->
 </aside>
         <header class="topbar">
         

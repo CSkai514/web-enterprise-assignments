@@ -46,13 +46,13 @@ if (isset($_POST['save_settings'])) {
         if (empty($open) || empty($close)) {
             throw new Exception('Open date or close date cannot be empty.');
         }
-        $stmt = $pdo->query("SELECT open_date, close_date FROM magazine_closure_settings LIMIT 1");
-        $settings = $stmt->fetch(PDO::FETCH_ASSOC);
+        $datafromDatabase = $pdo->query("SELECT open_date, close_date FROM magazine_closure_settings LIMIT 1");
+        $settings = $datafromDatabase->fetch(PDO::FETCH_ASSOC);
 
         if ($settings === false) {
             $sql = "INSERT INTO magazine_closure_settings (open_date, close_date) VALUES (?, ?)";
-            $stmt = $pdo->prepare($sql);
-            if ($stmt->execute([$open, $close])) {
+            $datafromDatabase = $pdo->prepare($sql);
+            if ($datafromDatabase->execute([$open, $close])) {
                 echo "<script>
                 window.addEventListener('DOMContentLoaded', (event) => {
                     Swal.fire({
@@ -101,26 +101,22 @@ if (isset($_POST['save_settings'])) {
                 </script>";
             } else {
                 $sql = "UPDATE magazine_closure_settings SET open_date = ?, close_date = ?";
-                $stmt = $pdo->prepare($sql);
-                if ($stmt->execute([$open, $close])) {
+                $datafromDatabase = $pdo->prepare($sql);
+                if ($datafromDatabase->execute([$open, $close])) {
                     echo "<script>
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                            didOpen: (toast) => {
-                                toast.onmouseenter = Swal.stopTimer;
-                                toast.onmouseleave = Swal.resumeTimer;
-                            }
-                        });
-
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Submission dates updated successfully.'
-                        });
-                    </script>";
+                                window.addEventListener('DOMContentLoaded', (event) => {
+                                    Swal.fire({
+                                        title: 'Submission dates updated successfully.',
+                                        icon: 'success',
+                                        confirmButtonText: 'Confirm',
+                                        draggable: true
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            window.location.href = 'home.php'; // Redirect to home.php
+                                        }
+                                    });
+                                });
+                        </script>";
                 } else {
                     echo "<script>
                         const Toast = Swal.mixin({
