@@ -78,13 +78,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         $updated_at = $created_at;
 
         try {
-            $stmt = $pdo->prepare("INSERT INTO articles (user_id, faculty_id, title, word_file, image_file, agreed_terms, is_selected, created_at, updated_at, description) 
-                                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
+            $comment_deadline = date('Y-m-d H:i:s', strtotime('+14 days'));
+            $stmt = $pdo->prepare("INSERT INTO articles (user_id, faculty_id, title, word_file, image_file, agreed_terms, is_selected, created_at, updated_at, description,comment_deadline) 
+                                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
             $is_selected = 0;
-            $stmt->execute([$user_id, $faculty_id, $title, $wordPath, $imagePath, $agreed_terms, $is_selected, $created_at, $updated_at, $article_word]);
-
-            $_SESSION['alert_message'] = "Article submitted successfully!";
+            $stmt->execute([$user_id, $faculty_id, $title, $wordPath, $imagePath, $agreed_terms, $is_selected, $created_at, $updated_at, $article_word,$comment_deadline]);
+            $coordinatorStmt = $pdo->prepare("SELECT email, name     FROM users WHERE role = 'marketingcoordinator' AND faculty_id = ?");
+            $coordinatorStmt->execute([$faculty_id]);
+            $coordinator = $coordinatorStmt->fetch(PDO::FETCH_ASSOC);
+        
+            if ($coordinator) {
+                $marketingCoordinatorEmail = $coordinator['email'];
+                $marketingCoordinator = $coordinator['name'] ?? 'MarketingCoordinator';
+        
+                $subject = "New Article Submission - Action Required";
+        
+                $message = "
+                <html>
+                <head>
+                <title>New Article Submitted</title>
+                </head>
+                <body>
+                <p>Dear {$marketingCoordinator},</p>
+                <p>A new article has been submitted and requires your attention.</p>
+                <p><strong>Title:</strong> {$title}</p>
+                <p><strong>Description:</strong> {$article_word}</p>
+                <p><strong>Comment Deadline:</strong> {$comment_deadline}</p>
+                <p>Please log in to the system and provide your comment within 14 days.</p>
+                <br>
+                <p>Thank you.</p>
+                </body>
+                </html>
+                ";
+        
+                mail($marketingCoordinatorEmail, $subject, $message);
+            }   
+            $_SESSION['alert_message'] = "Magazine article submitted successfully!, Email sent to Marketing Coordinator's Email: " . $marketingCoordinatorEmail;
             $_SESSION['show_alert'] = true; 
             header("Location: magazineSubmit.php"); 
             exit;

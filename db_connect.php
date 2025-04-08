@@ -6,10 +6,10 @@ $username = 'root';
 $password = '';
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->exec("SET NAMES 'utf8mb4'");
-    return $pdo; // <== Important!
+    $pdo_connect = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo_connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo_connect->exec("SET NAMES 'utf8mb4'");
+    return $pdo_connect;
 } catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }

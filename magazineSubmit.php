@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'librarycdn.php';
+$faculty_id = $_SESSION['faculty_id'];
     if (($_SESSION['loggedIn'] != true)){
         $_SESSION['alert_message'] = "Please log in to view the Submission page.";
         header("Location: login.php"); 
@@ -20,15 +21,16 @@ include 'librarycdn.php';
                 });
             });
         </script>";
-        echo  $faculty_id = $_SESSION['faculty_id'] ?? null;
+        echo  $faculty_id ?? null;
         unset($_SESSION['error_message']);
     }
     if (isset($_SESSION['show_alert']) && $_SESSION['show_alert']) {
+        $alertMessage = addslashes($_SESSION['alert_message']);
         echo "<script>
             document.addEventListener('DOMContentLoaded', function () {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Article submitted successfully!',
+                      title: '$alertMessage',
                     showConfirmButton: true
                 }).then((result) => {
                     if (result.isConfirmed) {

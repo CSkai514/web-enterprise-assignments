@@ -3,18 +3,45 @@ session_start();
 include 'librarycdn.php'; 
 
 $pdo = require 'db_connect.php';
-$coordinator_id = $_SESSION['user_id'];
-$query = $pdo->prepare("SELECT 
-                          a.*, 
-                          u.email AS author_name, 
-                          f.name AS faculty_name,
-                          ac.comment
-                      FROM articles a 
-                      LEFT JOIN users u ON a.user_id = u.id 
-                      LEFT JOIN faculties f ON a.faculty_id = f.id 
-                      LEFT JOIN article_comments ac ON a.id = ac.article_id AND ac.coordinator_id = ?
-                      ORDER BY a.created_at DESC");
-$query->execute([$coordinator_id]);
+
+$user_id = $_SESSION['user_id'];
+$user_role = $_SESSION['role'];
+$user_faculty_id = $_SESSION['faculty_id'];
+
+if ($user_role === 'student') {
+    $query = $pdo->prepare("SELECT a.*, u.email AS author_name, f.name AS faculty_name, ac.comment
+                            FROM articles a
+                            LEFT JOIN users u ON a.user_id = u.id
+                            LEFT JOIN faculties f ON a.faculty_id = f.id
+                            LEFT JOIN article_comments ac ON a.id = ac.article_id AND ac.coordinator_id = ?
+                            WHERE a.user_id = ?
+                            ORDER BY a.created_at DESC");
+    $query->execute([$user_id, $user_id]);
+
+} else if ($user_role === 'coordinator') {
+    $stmt = $pdo->prepare("SELECT faculty_id FROM users WHERE id = ?");
+    $stmt->execute([$user_id]);
+    $faculty_id = $stmt->fetchColumn();
+
+    $query = $pdo->prepare("SELECT a.*, u.email AS author_name, f.name AS faculty_name, ac.comment
+                            FROM articles a
+                            LEFT JOIN users u ON a.user_id = u.id
+                            LEFT JOIN faculties f ON a.faculty_id = f.id
+                            LEFT JOIN article_comments ac ON a.id = ac.article_id AND ac.coordinator_id = ?
+                            WHERE a.faculty_id = ?
+                            ORDER BY a.created_at DESC");
+    $query->execute([$user_id, $faculty_id]);
+
+} else if ($user_role === 'manager' || $user_role === 'admin') {
+    $query = $pdo->prepare("SELECT a.*, u.email AS author_name, f.name AS faculty_name, ac.comment
+                            FROM articles a
+                            LEFT JOIN users u ON a.user_id = u.id
+                            LEFT JOIN faculties f ON a.faculty_id = f.id
+                            LEFT JOIN article_comments ac ON a.id = ac.article_id AND ac.coordinator_id = ?
+                            ORDER BY a.created_at DESC");
+    $query->execute([$user_id]);
+}
+
 $maganizes = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
@@ -51,14 +78,14 @@ $maganizes = $query->fetchAll(PDO::FETCH_ASSOC);
             border-radius: 4px;
         }
         .download-link {
-            color: #0066cc;
-            text-decoration: none;
+            color: #ff8c00;
+            /* text-decoration: none; */
         }
     </style>
 </head>
 <body>
 <div style="text-align: left; margin: 20px;">
-        <a href="home.php" style="font-size: 20px; text-decoration: none; color: #007bff;">
+        <a href="home.php" style="font-size: 20px; text-decoration: none; color: #ff8c00;">
             <i class="bi bi-arrow-left-circle"></i> Back
         </a>
     </div>
@@ -89,7 +116,7 @@ foreach ($maganizes as $maganize): ?>
     </td>
     <td>
         <i class="bi bi-file-earmark-word-fill"></i> <?= basename($maganize['word_file']) ?><br>
-        <a href="<?= $maganize['word_file'] ?>" download>Download</a>
+        <a href="<?= $maganize['word_file'] ?>" download class="download-link">Download</a>
     </td>
     <td><?= date('d M Y, h:i A', strtotime($maganize['created_at'])) ?></td>
     <td><?= htmlspecialchars($maganize['comment'] ?? 'No comment Yet') ?></td>
