@@ -27,7 +27,7 @@
         </section>
 
         <section class="past-magazines" id="magazines">
-            <h2>Past Magazines</h2>
+            <h2>Past Magazines images</h2>
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                   <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -36,19 +36,19 @@
                 </ol>
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img class="slide-img" src="images/test.jpg">
-                    <img class="slide-img" src="images/test.jpg">
-                    <img class="slide-img" src="images/test.jpg">
+                    <img class="slide-img" src="images/magazine_cover1.jpg">
+                    <img class="slide-img" src="images/magazine_cover2.jpg">
+                    <img class="slide-img" src="images/magazine_cover3.jpg">
                   </div>
                   <div class="carousel-item">
-                    <img class="slide-img" src="images/test2.jpg">
-                    <img class="slide-img" src="images/test2.jpg">
-                    <img class="slide-img" src="images/test2.jpg">
+                    <img class="slide-img" src="images/magazine_cover4.jpg">
+                    <img class="slide-img" src="images/magazine_cover5.jpg">
+                    <img class="slide-img" src="images/magazine_cover1.jpg">
                   </div>
                   <div class="carousel-item">
-                    <img class="slide-img" src="images/test.jpg">
-                    <img class="slide-img" src="images/test.jpg">
-                    <img class="slide-img" src="images/test.jpg">
+                    <img class="slide-img" src="images/magazine_cover2.jpg">
+                    <img class="slide-img" src="images/magazine_cover3.jpg">
+                    <img class="slide-img" src="images/magazine_cover4.jpg">
                   </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">

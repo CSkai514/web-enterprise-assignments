@@ -132,13 +132,11 @@ if (
         <label>Title:</label>
         <input type="text" name="title" value="<?= htmlspecialchars($data['title']) ?>" required><br>
         <label>Description:</label>
-        <textarea name="article_word" required><?= htmlspecialchars($data['description']) ?></textarea><br>
-        <label>Replace Word File:</label>
-        <input type="file" name="docs"><br>
-
+        <textarea name="article_word" required><?= htmlspecialchars($data['description']) ?></textarea><br>        
         <label>Replace Image:</label>
         <input type="file" name="image"><br>
-
+        <label>Replace Word File:</label>
+        <input type="file" name="docs"><br>
         <button type="submit" name="update" id="submit-btn">Update</button>
         <a href="maganize_view.php" id="cancel-btn" style="display:block; text-align:center; text-decoration:none; padding:10px; border-radius:5px;">Cancel</a>
 

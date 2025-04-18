@@ -81,6 +81,9 @@ $maganizes = $query->fetchAll(PDO::FETCH_ASSOC);
             color: #ff8c00;
             /* text-decoration: none; */
         }
+        .btn{
+            margin: 5px;
+        }
     </style>
 </head>
 <body>
@@ -101,6 +104,7 @@ $maganizes = $query->fetchAll(PDO::FETCH_ASSOC);
             <th>Word File</th>
             <th>Submitted At</th>
             <th>Comments</th>
+            <th>Is selected</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -121,15 +125,28 @@ foreach ($maganizes as $maganize): ?>
     <td><?= date('d M Y, h:i A', strtotime($maganize['created_at'])) ?></td>
     <td><?= htmlspecialchars($maganize['comment'] ?? 'No comment Yet') ?></td>
     <td>
+    <?php if (!$maganize['is_selected']) {
+        echo "<span class='badge bg-danger'>Not Selected</span>";
+    }
+    else{
+        echo "<span class='badge bg-success'>Selected</span>";
+    }
+        
+    ?>
+    </td>
+    <td>
         <?php
         $role = $_SESSION['role'];
         $userEmail = $_SESSION['email'];
         $userFaculty = $_SESSION['faculty_id'];
 
-        if ($role === 'student' && $maganize['author_email'] === $userEmail || $role === 'admin') {
+        if ($role === 'student' && $maganize['faculty_id'] === $userFaculty || $role === 'admin') {
             echo "<a href='edit_maganize.php?id={$maganize['id']}' class='btn btn-sm btn-warning'>Edit</a> ";
-            echo "<a href='delete.php?id={$maganize['id']}' class='btn btn-sm btn-danger'>Delete</a>";
-        }
+            
+        }  
+        if ($maganize['is_selected'] != 1) {
+            echo "<a href='#' class='btn btn-sm btn-danger btn-delete' data-id='{$maganize['id']}'>Delete</a>";
+        } 
 
         if (($role === 'coordinator' && $maganize['faculty_id'] === $userFaculty) || $role === 'admin') {
             echo "<a href='view_maganize.php?id={$maganize['id']}' class='btn btn-sm btn-info'>View</a> ";
@@ -143,9 +160,10 @@ foreach ($maganizes as $maganize): ?>
             } else {
                 echo "<form method='POST' action='select_maganize_fuction.php'>
                         <input type='hidden' name='select_id' value='{$maganize['id']}'>
+                        <br>
                         <button type='submit' name='action' value='deselect' class='btn btn-sm btn-warning'>Deselect</button>
                       </form>";
-                echo "<span class='badge bg-success'>Selected</span>";
+                // echo "<span class='badge bg-success'>Selected</span>";
             }
         }
 
@@ -156,7 +174,7 @@ foreach ($maganizes as $maganize): ?>
 
         elseif ($role === 'admin') {
             echo "<a href='edit_maganize.php?id={$maganize['id']}' class='btn btn-sm btn-warning'>Edit</a> ";
-            echo "<a href='delete.php?id={$maganize['id']}' class='btn btn-sm btn-danger'>Delete</a>";
+            echo "<a href='delete_func.php?id={$maganize['id']}' class='btn btn-sm btn-danger'>Delete</a>";
         }
 
         elseif ($role === 'guest'  && $maganize['is_selected'] || $role === 'admin') {
@@ -250,6 +268,30 @@ foreach ($maganizes as $maganize): ?>
             }
         });
     }
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.btn-delete').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const id = this.getAttribute('data-id');
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to undo this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = `delete_func.php?delete_id=${id}`;
+                }
+            });
+        });
+    });
+});
 </script>
 </body>
 </html>

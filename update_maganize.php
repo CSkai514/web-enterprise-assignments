@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     if (!$article) {
         $_SESSION['error_message'] = "Article not found.";
         $_SESSION['show_alert_global'];
-        header("Location: home.php");
+        header("Location: maganize_view.php");
         exit;
     }
 
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
 
     $_SESSION['alert_message'] = "Article updated successfully.";
     $_SESSION['show_alert_global'];
-    header("Location: home.php");
+    header("Location: maganize_view.php");
     exit;
 }
 ?>
