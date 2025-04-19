@@ -1,7 +1,7 @@
 <?php
 session_start();
 include 'librarycdn.php'; 
-
+include 'required_login.php'; 
 $pdo = require 'db_connect.php';
 
 $user_id = $_SESSION['user_id'];
@@ -43,6 +43,12 @@ if ($user_role === 'student') {
 }
 
 $maganizes = $query->fetchAll(PDO::FETCH_ASSOC);
+
+$closureQuery = $pdo->query("SELECT final_closure_date FROM magazine_closure_settings ORDER BY id DESC LIMIT 1");
+$closureResult = $closureQuery->fetch(PDO::FETCH_ASSOC);
+$finalClosureDate = $closureResult['final_closure_date'];
+$currentDate = date('Y-m-d');
+
 ?>
 
 <!DOCTYPE html>
@@ -139,16 +145,21 @@ foreach ($maganizes as $maganize): ?>
         $role = $_SESSION['role'];
         $userEmail = $_SESSION['email'];
         $userFaculty = $_SESSION['faculty_id'];
+        $canEdit = strtotime($currentDate) <= strtotime($finalClosureDate);
 
         if ($role === 'student' && $maganize['faculty_id'] === $userFaculty || $role === 'admin') {
-            echo "<a href='edit_maganize.php?id={$maganize['id']}' class='btn btn-sm btn-warning'>Edit</a> ";
-            
+            echo "<a href='view_maganize.php?id={$maganize['id']}' class='btn btn-sm btn-info'>View</a>";
         }  
         if ($maganize['is_selected'] != 1) {
+            if ($canEdit) {
+                echo "<a href='edit_maganize.php?id={$maganize['id']}' class='btn btn-sm btn-warning'>Edit</a> ";
+            } else {
+                echo "<button class='btn btn-sm btn-danger' disabled>Editing Closed</button> ";
+            }
             echo "<a href='#' class='btn btn-sm btn-danger btn-delete' data-id='{$maganize['id']}'>Delete</a>";
         } 
 
-        if (($role === 'coordinator' && $maganize['faculty_id'] === $userFaculty) || $role === 'admin') {
+        if (($role === 'coordinator' && $maganize['faculty_id'] === $userFaculty)|| $role === 'manager' || $role === 'admin') {
             echo "<a href='view_maganize.php?id={$maganize['id']}' class='btn btn-sm btn-info'>View</a> ";
             echo "<a href='#' class='btn btn-sm btn-primary' onclick='commentAction({$maganize['id']})'>Comment</a> ";
             

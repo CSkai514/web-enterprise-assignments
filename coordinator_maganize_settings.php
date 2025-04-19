@@ -39,20 +39,21 @@ if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'coordinator' && $_SESSI
 
 $settings = null;
 if (isset($_POST['save_settings'])) {
-    $open = $_POST['open_date'];
-    $close = $_POST['close_date'];
+    $open_date = $_POST['open_date'];
+    $close_date = $_POST['close_date'];
+    $final_close_date = $_POST['final_closure_date'];
 
     try {
-        if (empty($open) || empty($close)) {
+        if (empty($open_date) || empty($close_date)) {
             throw new Exception('Open date or close date cannot be empty.');
         }
-        $datafromDatabase = $pdo->query("SELECT open_date, close_date FROM magazine_closure_settings LIMIT 1");
+        $datafromDatabase = $pdo->query("SELECT open_date, close_date, final_closure_date FROM magazine_closure_settings LIMIT 1");
         $settings = $datafromDatabase->fetch(PDO::FETCH_ASSOC);
 
         if ($settings === false) {
-            $sql = "INSERT INTO magazine_closure_settings (open_date, close_date) VALUES (?, ?)";
+            $sql = "INSERT INTO magazine_closure_settings (open_date, close_date,final_closure_date) VALUES (?, ?,?)";
             $datafromDatabase = $pdo->prepare($sql);
-            if ($datafromDatabase->execute([$open, $close])) {
+            if ($datafromDatabase->execute([$open_date, $close_date,  $final_close_date])) {
                 echo "<script>
                 window.addEventListener('DOMContentLoaded', (event) => {
                     Swal.fire({
@@ -78,7 +79,7 @@ if (isset($_POST['save_settings'])) {
                 </script>";
             }
         } else {
-            if ($open === $settings['open_date'] && $close === $settings['close_date']) {
+            if ($open_date === $settings['open_date'] && $close_date === $settings['close_date'] && $final_close_date ==$settings['final_closure_date'] ) {
                 echo "<script>
                     window.addEventListener('DOMContentLoaded', (event) => {
                         const Toast = Swal.mixin({
@@ -100,9 +101,9 @@ if (isset($_POST['save_settings'])) {
                     });
                 </script>";
             } else {
-                $sql = "UPDATE magazine_closure_settings SET open_date = ?, close_date = ?";
+                $sql = "UPDATE magazine_closure_settings SET open_date = ?, close_date = ?, final_closure_date = ?";
                 $datafromDatabase = $pdo->prepare($sql);
-                if ($datafromDatabase->execute([$open, $close])) {
+                if ($datafromDatabase->execute([$open_date, $close_date, $final_close_date])) {
                     echo "<script>
                                 window.addEventListener('DOMContentLoaded', (event) => {
                                     Swal.fire({
@@ -152,7 +153,7 @@ if (isset($_POST['save_settings'])) {
         </script>";
     }
 } else {
-    $stmt = $pdo->query("SELECT open_date, close_date FROM magazine_closure_settings LIMIT 1");
+    $stmt = $pdo->query("SELECT open_date, close_date,final_closure_date FROM magazine_closure_settings LIMIT 1");
     $settings = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 ?>
@@ -217,6 +218,9 @@ if (isset($_POST['save_settings'])) {
 
             <label>Closure Date:</label>
             <input type="date" name="close_date" required value="<?= $settings['close_date'] ?? '' ?>">
+
+            <label>Final Closure Date:</label>
+            <input type="date" name="final_closure_date" required value="<?= $settings['final_closure_date'] ?? '' ?>">
 
             <button type="submit" name="save_settings">Save Settings</button>
         </form>

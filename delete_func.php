@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'required_login.php'; 
 $pdo = require 'db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['delete_id'])) {

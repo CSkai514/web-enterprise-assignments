@@ -1,7 +1,11 @@
 <?php
 session_start();
 $pdo = require 'db_connect.php';
-
+include 'required_login.php'; 
+if (($_SESSION['loggedIn'] != true)){
+    $_SESSION['alert_message'] = "Please log in to view the Home page.";
+    header("Location: login.php"); 
+}
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
 
@@ -59,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $imagePath = $uploadDir . uniqid('img_') . '_' . $imageFileName;
 
     $allowedDocs = ['application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf'];
-    $allowedImages = ['image/jpeg', 'image/png', 'image/gif'];
+    $allowedImages = ['image/jpeg', 'image/png'];
 
     if (!in_array($wordFile['type'], $allowedDocs)) {
         $_SESSION['error_message'] = "Only .doc, .docx, or .pdf files are allowed for Word files.";
@@ -68,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     }
 
     if (!in_array($imageFile['type'], $allowedImages)) {
-        $_SESSION['error_message'] = "Only JPEG, PNG, or GIF images are allowed.";
+        $_SESSION['error_message'] = "Only JPEG or PNG images are allowed.";
         header("Location: magazineSubmit.php");
         exit;
     }

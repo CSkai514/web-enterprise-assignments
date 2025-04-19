@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'required_login.php'; 
 $pdo = require 'db_connect.php';
 
 $id = $_GET['id'] ?? 0;

@@ -2,11 +2,7 @@
 session_start();
 include 'db_connect.php';
 include 'alert_message_fuction.php';
-
-    if (($_SESSION['loggedIn'] != true)){
-        $_SESSION['alert_message'] = "Please log in to view the Home page.";
-        header("Location: login.php"); 
-    }
+include 'required_login.php'; 
     $role = $_SESSION['role'];
     $userName = $_SESSION['name'];
     $sql = "SELECT MONTH(created_at) AS month, COUNT(*) AS num_contributions 
@@ -52,7 +48,7 @@ include 'alert_message_fuction.php';
         <a href="magazineSubmit.php"><p>Add New Magazine</p></a>
     <?php endif; ?>
 
-    <?php if ($role === 'coordinator' || $role === 'admin'): ?>
+    <?php if ($role === 'coordinator' || $role === 'admin' || $role === 'manager'): ?>
         <a href="coordinator_maganize_settings.php"><p>Add Closure Date</p></a>
     <?php endif; ?>
 
