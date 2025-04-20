@@ -1,6 +1,12 @@
 <?php
 session_start();
 include 'librarycdn.php';
+$dataCheckFromdatabase = require 'db_connect.php';
+
+$closureQuery = $dataCheckFromdatabase->query("SELECT open_date, close_date, final_closure_date FROM magazine_closure_settings ORDER BY id DESC LIMIT 1");
+$closureData = $closureQuery->fetch(PDO::FETCH_ASSOC);
+
+$closeDate = $closureData['close_date'] ?? null;
 $faculty_id = $_SESSION['faculty_id'];
     if (($_SESSION['loggedIn'] != true)){
         $_SESSION['alert_message'] = "Please log in to view the Submission page.";
@@ -140,7 +146,12 @@ body {
 
     <div class="upload-container">
         <h2>Create Maganize</h2>
-       
+        <?php if ($closeDate): ?>
+            <div style="margin-bottom: 15px; color: white; background-color: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px;">
+                <strong>Submission Period:</strong><br>
+                Close submission Date: <?= date("d M Y", strtotime($closeDate)) ?>
+            </div>
+        <?php endif; ?>
         <form action="upload_maganize.php" method="POST" enctype="multipart/form-data">
             <input type="text" name="title" placeholder="Title" required>
             <textarea name="article_word" placeholder="Description" required></textarea>

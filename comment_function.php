@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $comment = $_POST['comment'];
     $coordinatorId = $_SESSION['user_id'];
+    $facultyID = $_SESSION['faculty_id'];
     $checkQuery = $pdo->prepare("SELECT id FROM article_comments WHERE article_id = ? AND coordinator_id = ?");
     $checkQuery->execute([$articleId, $coordinatorId]);
     $existingComment = $checkQuery->fetch();
@@ -21,8 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
         echo json_encode(['success' => true, 'message' => 'Comment updated successfully.']);
     } else {
-        $insertQuery = $pdo->prepare("INSERT INTO article_comments (article_id, coordinator_id, comment, created_at) VALUES (?, ?, ?, NOW())");
-        $insertQuery->execute([$articleId, $coordinatorId, $comment]);
+        $insertQuery = $pdo->prepare("INSERT INTO article_comments (article_id, coordinator_id, comment,faculty, created_at) VALUES (?, ?, ?,?, NOW())");
+        $insertQuery->execute([$articleId, $coordinatorId, $comment, $facultyID]);
         $response = [
             'success' => true,
             'message' => 'Comment added successfully.'

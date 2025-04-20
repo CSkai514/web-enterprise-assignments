@@ -13,10 +13,10 @@ if ($user_role === 'student') {
                             FROM articles a
                             LEFT JOIN users u ON a.user_id = u.id
                             LEFT JOIN faculties f ON a.faculty_id = f.id
-                            LEFT JOIN article_comments ac ON a.id = ac.article_id AND ac.coordinator_id = ?
+                            LEFT JOIN article_comments ac ON a.id = ac.article_id
                             WHERE a.user_id = ?
                             ORDER BY a.created_at DESC");
-    $query->execute([$user_id, $user_id]);
+    $query->execute([$user_id]);
 
 } else if ($user_role === 'coordinator') {
     $stmt = $pdo->prepare("SELECT faculty_id FROM users WHERE id = ?");
@@ -147,7 +147,7 @@ foreach ($maganizes as $maganize): ?>
         $userFaculty = $_SESSION['faculty_id'];
         $canEdit = strtotime($currentDate) <= strtotime($finalClosureDate);
 
-        if ($role === 'student' && $maganize['faculty_id'] === $userFaculty || $role === 'admin') {
+        if ($role === 'student' && $maganize['faculty_id'] === $userFaculty ) {
             echo "<a href='view_maganize.php?id={$maganize['id']}' class='btn btn-sm btn-info'>View</a>";
         }  
         if ($maganize['is_selected'] != 1) {
@@ -159,7 +159,7 @@ foreach ($maganizes as $maganize): ?>
             echo "<a href='#' class='btn btn-sm btn-danger btn-delete' data-id='{$maganize['id']}'>Delete</a>";
         } 
 
-        if (($role === 'coordinator' && $maganize['faculty_id'] === $userFaculty)|| $role === 'manager' || $role === 'admin') {
+        if (($role === 'coordinator' && $maganize['faculty_id'] === $userFaculty)|| $role === 'admin') {
             echo "<a href='view_maganize.php?id={$maganize['id']}' class='btn btn-sm btn-info'>View</a> ";
             echo "<a href='#' class='btn btn-sm btn-primary' onclick='commentAction({$maganize['id']})'>Comment</a> ";
             
