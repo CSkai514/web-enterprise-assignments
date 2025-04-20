@@ -170,7 +170,7 @@ body {
             </div> -->
             <div class="terms-container">
                 <input type="checkbox" class="checkbox" name="terms" required>
-                <label>I accept the <a href="#">terms and conditions</a> for the article</label>
+                <label>I accept the <a href="termsNconditions.html">terms and conditions</a> for the article</label>
             </div>
         </form>
     </div>
