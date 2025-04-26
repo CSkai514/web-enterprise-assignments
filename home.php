@@ -65,7 +65,7 @@ if (empty($submission_trends)) {
         <a href="coordinator_maganize_settings.php"><p>Add Closure Date</p></a>
     <?php endif; ?>
 
-    <a href="maganize_view.php"><p>View maganize Data</p></a>
+    <a href="maganize_view.php"><p>View magazine Data</p></a>
 </aside>
 <header class="topbar" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; position: relative;">
     

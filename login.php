@@ -43,9 +43,9 @@
                 </div>
                 <button class="mt-3" type="submit">Login</button>
                 </form>
-                <form method="post" action="">
+                <!-- <form method="post" action="">
                     <button class="mt-3 guest-login" type="submit" name="guestUser_login">Login as Guest</button>
-                </form>
+                </form> -->
         </div>
     </div>
     <script>

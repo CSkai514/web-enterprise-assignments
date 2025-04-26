@@ -55,7 +55,7 @@ $currentDate = date('Y-m-d');
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>All Submitted Maganize</title>
+    <title>All Submitted Magazine</title>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -98,7 +98,7 @@ $currentDate = date('Y-m-d');
             <i class="bi bi-arrow-left-circle"></i> Back
         </a>
     </div>
-<h1>Submitted Maganize</h1>
+<h1>Submitted Magazine</h1>
 
 <table id="articleTable" class="display">
     <thead>
